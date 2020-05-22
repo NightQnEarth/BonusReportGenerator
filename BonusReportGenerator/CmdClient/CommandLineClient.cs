@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using CommandLine;
 
 namespace BonusReportGenerator.CmdClient
 {
-    public class CommandLineClient
+    public static class CommandLineClient
     {
         // ReSharper disable once ParameterTypeCanBeEnumerable.Global
         // As an input parameter can only be passed command-line arguments from Main(string[] args).
-        public static ReportGeneratorOptions GetOptions(string[] args)
+        public static IReportGeneratorOptions GetOptions(string[] args)
         {
             ReportGeneratorOptions reportGeneratorOptions = null;
 
@@ -16,20 +17,16 @@ namespace BonusReportGenerator.CmdClient
                 .WithParsed(inputOptions => reportGeneratorOptions = inputOptions)
                 .WithNotParsed(HandleParseErrors);
 
-            return reportGeneratorOptions;
+            return reportGeneratorOptions.ParseOptions();
         }
 
         private static void HandleParseErrors(IEnumerable<Error> errors)
         {
-            var exitCode = 0;
+            var errorMessageBuilder = new StringBuilder("following command line parser errors was handled:");
+            errorMessageBuilder.AppendLine();
+            errorMessageBuilder.AppendJoin(Environment.NewLine, errors);
 
-            foreach (var error in errors)
-            {
-                Console.Error.WriteLine(error);
-                exitCode = (int)error.Tag;
-            }
-
-            Environment.Exit(exitCode);
+            throw new ArgumentParserException(errorMessageBuilder.ToString());
         }
     }
 }
