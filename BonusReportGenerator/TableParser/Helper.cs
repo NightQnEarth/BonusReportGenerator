@@ -7,13 +7,6 @@ namespace BonusReportGenerator.TableParser
     {
         public const string DatePattern = "dd.MM.yyyy";
 
-        public static bool ParseDate(string date, out DateTime parsedDate) =>
-            DateTime.TryParseExact(date,
-                                   DatePattern,
-                                   CultureInfo.InvariantCulture,
-                                   DateTimeStyles.None,
-                                   out parsedDate);
-
         public static int ParseIntField(string integerField, string exceptionMessage)
         {
             if (!int.TryParse(integerField, out var parsedField))
@@ -27,5 +20,12 @@ namespace BonusReportGenerator.TableParser
                 throw new ArgumentException(exceptionMessage);
             return parsedDate;
         }
+
+        private static bool ParseDate(string date, out DateTime parsedDate) =>
+            DateTime.TryParseExact(date,
+                                   DatePattern,
+                                   CultureInfo.InvariantCulture,
+                                   DateTimeStyles.None,
+                                   out parsedDate);
     }
 }

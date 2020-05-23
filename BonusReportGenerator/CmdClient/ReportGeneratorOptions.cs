@@ -27,17 +27,17 @@ namespace BonusReportGenerator.CmdClient
                 HelpText = "Redirect report printing to command line.")]
         private bool RedirectReportPrintingToCmd { get; set; }
 
-        [Option('f', "from_date",
+        [Option('s', "start_date",
                 HelpText = "Start date of report. Date should be represented in the following format: " +
                            Helper.DatePattern + "\r\n" +
                            "If this parameter is not specified, report will build from the earliest date.")]
-        private string FromDate { get; set; }
+        private string StartDateOfReport { get; set; }
 
-        [Option('t', "to_date",
-                HelpText = "Finish date of report. Date should be represented in the following format: " +
+        [Option('f', "final_date",
+                HelpText = "Final date of report. Date should be represented in the following format: " +
                            Helper.DatePattern + "\r\n" +
                            "If this parameter is not specified, report will build until the latest date.")]
-        private string ToDate { get; set; }
+        private string FinalDateOfReport { get; set; }
 
         public IReportGeneratorOptions ParseOptions() =>
             new BonusReportGenerator.ReportGeneratorOptions
@@ -45,16 +45,11 @@ namespace BonusReportGenerator.CmdClient
                 EmployeesFilepath = EmployeesFilepath,
                 ContractsFilepath = ContractsFilepath,
                 RedirectReportPrintingToCmd = RedirectReportPrintingToCmd,
-                FromDate = ParseDate(FromDate, nameof(FromDate)),
-                ToDate = ParseDate(ToDate, nameof(ToDate))
+                StartDateOfReport = ParseDateParameter(StartDateOfReport, nameof(StartDateOfReport)),
+                FinalDateOfReport = ParseDateParameter(FinalDateOfReport, nameof(FinalDateOfReport))
             };
 
-        private static DateTime ParseDate(string date, string paramName)
-        {
-            if (Helper.ParseDate(date, out var parsedDate))
-                return parsedDate;
-
-            throw new ArgumentException($"was passed invalid format date for '{paramName}' parameter.", date);
-        }
+        private static DateTime ParseDateParameter(string date, string paramName) =>
+            Helper.ParseDateField(date, $"was passed invalid format date for '{paramName}' parameter.");
     }
 }

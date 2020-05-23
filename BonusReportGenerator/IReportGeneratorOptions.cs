@@ -7,7 +7,7 @@ namespace BonusReportGenerator
         string EmployeesFilepath { get; set; }
         string ContractsFilepath { get; set; }
         bool RedirectReportPrintingToCmd { get; set; }
-        DateTime FromDate { get; set; }
-        DateTime ToDate { get; set; }
+        DateTime StartDateOfReport { get; set; }
+        DateTime FinalDateOfReport { get; set; }
     }
 }
