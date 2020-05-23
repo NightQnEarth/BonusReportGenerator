@@ -7,7 +7,7 @@ namespace BonusReportGenerator.TableParser
     public static class EmployeeParser
     {
         private const int EmployeeTableColumnCount = 6;
-        private static readonly Regex bonusCodeValidator = new Regex(@"\d(?:,\d)*");
+        private static readonly Regex bonusCodeValidator = new Regex(@"\d+(?:,\d+)*");
 
         public static Employee Parse(string[] lineFields)
         {
