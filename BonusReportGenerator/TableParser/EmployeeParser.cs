@@ -44,7 +44,7 @@ namespace BonusReportGenerator.TableParser
             if (dismissDateField is null)
                 throw new ArgumentNullException(nameof(dismissDateField));
 
-            return default;
+            return DateTime.MaxValue;
         }
 
         private static int[] ParseBonusCode(string bonusCodeField)

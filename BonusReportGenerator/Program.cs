@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BonusReportGenerator.CmdClient;
+using BonusReportGenerator.Core;
 using BonusReportGenerator.TableParser;
 
 namespace BonusReportGenerator
@@ -9,16 +10,17 @@ namespace BonusReportGenerator
     {
         private static void Main(string[] args)
         {
-            try
-            {
-                // var op = CommandLineClient.GetOptions(args);
-                var employees = CsvParser<Employee>.Parse(
-                    @"C:\Users\Night\Desktop\Languages\C#\TestForAlfaBank\BonusReportGenerator\employees.csv",
-                    EmployeeParser.Parse).ToArray();
-                var contracts = CsvParser<Contract>.Parse(
-                    @"C:\Users\Night\Desktop\Languages\C#\TestForAlfaBank\BonusReportGenerator\contracts.csv",
-                    ContractParser.Parse).ToArray();
-            }
+            var op = CommandLineClient.GetOptions(args);
+
+            var employees = CsvParser<Employee>.Parse(op.EmployeesFilepath, EmployeeParser.Parse).ToArray();
+            var contracts = CsvParser<Contract>.Parse(op.ContractsFilepath, ContractParser.Parse).ToArray();
+
+            var bonuses = BonusGenerator.Generate(employees, contracts, op.StartDateOfReport, op.FinalDateOfReport);
+
+            foreach (var bonus in bonuses)
+                Console.WriteLine($"{bonus.EmployeeId}: {bonus.Bonus}");
+
+            try { }
             catch (ArgumentParserException exception)
             {
                 Console.WriteLine(exception.Message);
