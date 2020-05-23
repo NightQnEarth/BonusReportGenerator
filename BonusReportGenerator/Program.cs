@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using BonusReportGenerator.CmdClient;
+using BonusReportGenerator.TableParser;
 
 namespace BonusReportGenerator
 {
@@ -9,7 +11,13 @@ namespace BonusReportGenerator
         {
             try
             {
-                var op = CommandLineClient.GetOptions(args);
+                // var op = CommandLineClient.GetOptions(args);
+                var employees = CsvParser<Employee>.Parse(
+                    @"C:\Users\Night\Desktop\Languages\C#\TestForAlfaBank\BonusReportGenerator\employees.csv",
+                    EmployeeParser.Parse).ToArray();
+                var contracts = CsvParser<Contract>.Parse(
+                    @"C:\Users\Night\Desktop\Languages\C#\TestForAlfaBank\BonusReportGenerator\contracts.csv",
+                    ContractParser.Parse).ToArray();
             }
             catch (ArgumentParserException exception)
             {

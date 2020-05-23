@@ -6,15 +6,17 @@ namespace BonusReportGenerator.TableParser
 {
     public static class EmployeeParser
     {
+        private const int EmployeeTableColumnCount = 6;
         private static readonly Regex bonusCodeValidator = new Regex(@"\d(?:,\d)*");
 
         public static Employee Parse(string[] lineFields)
         {
-            if (lineFields.Length != 6)
-                throw new ArgumentException();
+            if (lineFields.Length != EmployeeTableColumnCount)
+                throw new ArgumentException("invalid employee table line was passed. Expected " +
+                                            $"'{EmployeeTableColumnCount}' columns, but got '{lineFields.Length}'.");
 
             var employeeId = ParseEmployeeId(lineFields[0]);
-            var name = lineFields[1];
+            var name = ParseName(lineFields[1]);
             var recruitmentDate = ParseRecruitmentDate(lineFields[2]);
             var dismissDate = ParseDismissDate(lineFields[3]);
             var bonusCode = ParseBonusCode(lineFields[4]);
@@ -23,42 +25,38 @@ namespace BonusReportGenerator.TableParser
             return new Employee(employeeId, name, recruitmentDate, dismissDate, bonusCode, salary);
         }
 
-        private static int ParseEmployeeId(string field)
+        private static int ParseEmployeeId(string employeeIdField) =>
+            Helper.ParseIntField(employeeIdField, $"was found incorrect employee ID '{employeeIdField}'.");
+
+        private static string ParseName(string nameField) =>
+            string.IsNullOrWhiteSpace(nameField) || nameField.Length == 0
+                ? throw new ArgumentException("cannot found employee name.")
+                : nameField;
+
+        private static DateTime ParseRecruitmentDate(string recruitmentDateField) =>
+            Helper.ParseDateField(recruitmentDateField, $"was found invalid format date '{recruitmentDateField}'.");
+
+        private static DateTime ParseDismissDate(string dismissDateField)
         {
-            if (!int.TryParse(field, out var employeeId))
-                throw new ArgumentException("incorrect employee ID.");
-            return employeeId;
+            if (!string.IsNullOrEmpty(dismissDateField))
+                return Helper.ParseDateField(dismissDateField, $"was found invalid format date '{dismissDateField}'.");
+
+            if (dismissDateField is null)
+                throw new ArgumentNullException(nameof(dismissDateField));
+
+            return default;
         }
 
-        private static DateTime ParseRecruitmentDate(string field)
+        private static int[] ParseBonusCode(string bonusCodeField)
         {
-            if (!Helper.ParseDate(field, out var recruitmentDate))
-                throw new ArgumentException("was found invalid format date.");
-            return recruitmentDate;
-        }
+            if (!bonusCodeValidator.IsMatch(bonusCodeField))
+                throw new ArgumentException($"incorrect bonus code format '{bonusCodeField}'.");
 
-        private static DateTime ParseDismissDate(string field)
-        {
-            if (!string.IsNullOrEmpty(field) & !Helper.ParseDate(field, out var dismissDate))
-                throw new ArgumentException("was found invalid format date.");
-            return dismissDate;
-        }
-
-        private static int[] ParseBonusCode(string field)
-        {
-            if (!bonusCodeValidator.IsMatch(field))
-                throw new ArgumentException("incorrect bonus code.");
-
-            var bonusCode = field.Split(',').Select(int.Parse).ToArray();
-
+            var bonusCode = bonusCodeField.Split(',').Select(int.Parse).ToArray();
             return bonusCode;
         }
 
-        private static int ParseSalary(string field)
-        {
-            if (!int.TryParse(field, out var salary))
-                throw new ArgumentException("incorrect salary.");
-            return salary;
-        }
+        private static int ParseSalary(string salaryField) =>
+            Helper.ParseIntField(salaryField, $"was found incorrect salary format '{salaryField}'.");
     }
 }
