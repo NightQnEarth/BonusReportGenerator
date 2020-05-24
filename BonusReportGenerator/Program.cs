@@ -1,26 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BonusReportGenerator.Bonus;
 using BonusReportGenerator.CmdClient;
+using BonusReportGenerator.ReportGenerators;
 using BonusReportGenerator.TableParsers;
 
 namespace BonusReportGenerator
 {
     public static class Program
     {
+        private static readonly Dictionary<GeneratorType, ReportGenerator> reportGenerators =
+            new Dictionary<GeneratorType, ReportGenerator>();
+
         private static void Main(string[] args)
         {
-            var op = CommandLineClient.GetOptions(args);
+            try
+            {
+                var generatorOptions = CommandLineClient.GetOptions(args);
 
-            var employees = CsvParser<Employee>.Parse(op.EmployeesFilepath, EmployeeParser.Parse).ToArray();
-            var contracts = CsvParser<Contract>.Parse(op.ContractsFilepath, ContractParser.Parse).ToArray();
+                var employees = CsvParser<Employee>.Parse(generatorOptions.EmployeesFilepath, EmployeeParser.Parse)
+                    .ToArray();
+                var contracts = CsvParser<Contract>.Parse(generatorOptions.ContractsFilepath, ContractParser.Parse)
+                    .ToArray();
 
-            var bonuses = BonusGenerator.Generate(employees, contracts, op.StartDateOfReport, op.FinalDateOfReport);
+                var bonuses = BonusGenerator.Generate(employees,
+                                                      contracts,
+                                                      generatorOptions.StartDateOfReport,
+                                                      generatorOptions.FinalDateOfReport)
+                    .ToArray();
 
-            foreach (var bonus in bonuses)
-                Console.WriteLine($"{bonus.EmployeeId}: {bonus.Bonus}");
+                reportGenerators.Add(GeneratorType.Console, new ConsoleReportGenerator(employees, bonuses));
+                reportGenerators.Add(GeneratorType.Csv, new CsvReportGenerator(
+                                         employees, bonuses, generatorOptions.RedirectReportPrintingToCsv));
 
-            try { }
+                var generatorType = generatorOptions.RedirectReportPrintingToCsv is null
+                                        ? GeneratorType.Console
+                                        : GeneratorType.Csv;
+
+                reportGenerators[generatorType].Generate();
+            }
             catch (ArgumentParserException exception)
             {
                 Console.WriteLine(exception.Message);
