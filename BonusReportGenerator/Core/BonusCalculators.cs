@@ -49,10 +49,10 @@ namespace BonusReportGenerator.Core
         private double CalculateThirdBonus(Employee employee)
         {
             const double bonusCoefficient = 0.07;
-            var minTimeOfWorkToGetBonus = TimeSpan.FromDays(30 * 12 * 2); // two years
+            const int monthsOfWorkToGetBonus = 12 * 2;
 
             var contractsAfterNecessaryTimeOfWork = contracts
-                .Where(contract => contract.ContractDate - employee.RecruitmentDate > minTimeOfWorkToGetBonus);
+                .Where(contract => employee.RecruitmentDate.AddMonths(monthsOfWorkToGetBonus) < contract.ContractDate);
 
             var contractsSum = CalculateContractsSum(employee, contractsAfterNecessaryTimeOfWork);
 
@@ -87,12 +87,12 @@ namespace BonusReportGenerator.Core
             if (to < from)
                 throw new ArgumentException("right bound of time interval cannot be less than left bound.", nameof(to));
 
-            var monthDiff = (to.Year - from.Year) * 12 + to.Month - from.Month + (to.Day >= from.Day ? 0 : -1);
+            var fullMonths = (to.Year - from.Year) * 12 + to.Month - from.Month + (to.Day >= from.Day ? 0 : -1);
 
             if (DateTime.DaysInMonth(to.Year, to.Month) == to.Day)
-                return monthDiff + 1;
+                return fullMonths + 1;
 
-            return monthDiff;
+            return fullMonths;
         }
     }
 }
