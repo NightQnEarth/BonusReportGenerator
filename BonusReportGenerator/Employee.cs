@@ -5,21 +5,21 @@ namespace BonusReportGenerator
     public class Employee
     {
         public int Id { get; }
-        public string Name { get; }
+        public string FullName { get; }
         public DateTime RecruitmentDate { get; }
         public DateTime DismissDate { get; }
         public int[] BonusCodes { get; }
         public int Salary { get; }
 
         public Employee(int id,
-                        string name,
+                        string fullName,
                         DateTime recruitmentDate,
                         DateTime dismissDate,
                         int[] bonusCodes,
                         int salary)
         {
             Id = id;
-            Name = name;
+            FullName = fullName;
             RecruitmentDate = recruitmentDate;
             DismissDate = dismissDate;
             BonusCodes = bonusCodes;

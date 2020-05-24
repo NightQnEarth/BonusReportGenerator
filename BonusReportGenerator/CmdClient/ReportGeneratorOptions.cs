@@ -14,7 +14,7 @@ namespace BonusReportGenerator.CmdClient
         [Value(0, MetaName = "employees_filepath",
                Required = true,
                HelpText = "Expected filepath to csv-file with employees description table in specified format:\r\n" +
-                          "EmployeeId,Name,RecruitmentDate,DismissDate,BonusCodes,Salary")]
+                          "EmployeeId,FullName,RecruitmentDate,DismissDate,BonusCodes,Salary")]
         public string EmployeesFilepath { get; set; }
 
         [Value(1, MetaName = "contracts_filepath",
