@@ -4,10 +4,10 @@ namespace BonusReportGenerator
 {
     public interface IReportGeneratorOptions
     {
-        string EmployeesFilepath { get; set; }
-        string ContractsFilepath { get; set; }
-        bool RedirectReportPrintingToCmd { get; set; }
-        DateTime StartDateOfReport { get; set; }
-        DateTime FinalDateOfReport { get; set; }
+        public string EmployeesFilepath { get; set; }
+        public string ContractsFilepath { get; set; }
+        public bool RedirectReportPrintingToCmd { get; set; }
+        public DateTime StartDateOfReport { get; set; }
+        public DateTime FinalDateOfReport { get; set; }
     }
 }
