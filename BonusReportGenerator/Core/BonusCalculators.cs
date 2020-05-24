@@ -66,12 +66,6 @@ namespace BonusReportGenerator.Core
             var startPeriod = new DateTime(Math.Max(employee.RecruitmentDate.Ticks, startDate.Ticks));
             var endPeriod = new DateTime(Math.Min(employee.DismissDate.Ticks, finalDate.Ticks));
 
-            if (startPeriod.Day > 1)
-                startPeriod = startPeriod.AddDays(1 - startPeriod.Day).AddMonths(1);
-
-            if (endPeriod.Day > 1)
-                endPeriod = endPeriod.AddDays(1 - endPeriod.Day);
-
             var fullMonthsOfWorkInReportPeriod = GetFullMonthsBetween(startPeriod, endPeriod);
 
             return fullMonthsOfWorkInReportPeriod * bonusCoefficient * employee.Salary;
@@ -87,10 +81,12 @@ namespace BonusReportGenerator.Core
             if (to < from)
                 throw new ArgumentException("right bound of time interval cannot be less than left bound.", nameof(to));
 
-            var fullMonths = (to.Year - from.Year) * 12 + to.Month - from.Month + (to.Day >= from.Day ? 0 : -1);
+            if (from.Day > 1)
+                from = from.AddDays(1 - from.Day).AddMonths(1);
+            if (to.Day > 1)
+                to = to.AddDays(1 - to.Day);
 
-            if (DateTime.DaysInMonth(to.Year, to.Month) == to.Day)
-                return fullMonths + 1;
+            var fullMonths = (to.Year - from.Year) * 12 + to.Month - from.Month;
 
             return fullMonths;
         }
