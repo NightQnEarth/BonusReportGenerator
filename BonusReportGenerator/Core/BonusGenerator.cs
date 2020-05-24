@@ -36,6 +36,6 @@ namespace BonusReportGenerator.Core
             from employee in employees
             let bonus = employee.BonusCodes
                 .Sum(bonusCode => calculators.BonusCalculatorByBonusCode[bonusCode - 1](employee))
-            select new EmployeeBonus(employee.Id, bonus);
+            select new EmployeeBonus(employee.Id, Math.Round(bonus, 2));
     }
 }
