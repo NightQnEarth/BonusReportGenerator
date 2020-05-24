@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BonusReportGenerator.ReportGenerators;
 using CommandLine;
 
 namespace BonusReportGenerator.CmdClient

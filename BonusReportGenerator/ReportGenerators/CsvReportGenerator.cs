@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BonusReportGenerator.Bonus;
+using BonusReportGenerator.TableParsers;
 
 namespace BonusReportGenerator.ReportGenerators
 {

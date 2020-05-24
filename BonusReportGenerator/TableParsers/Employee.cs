@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BonusReportGenerator
+namespace BonusReportGenerator.TableParsers
 {
     public class Employee
     {

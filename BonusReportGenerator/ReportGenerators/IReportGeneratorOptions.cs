@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BonusReportGenerator
+namespace BonusReportGenerator.ReportGenerators
 {
     public interface IReportGeneratorOptions
     {

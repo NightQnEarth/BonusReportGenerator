@@ -1,4 +1,5 @@
 ﻿using System;
+using BonusReportGenerator.ReportGenerators;
 using BonusReportGenerator.TableParsers;
 using CommandLine;
 
@@ -40,7 +41,7 @@ namespace BonusReportGenerator.CmdClient
         public string FinalDateOfReport { get; set; }
 
         public IReportGeneratorOptions ParseOptions() =>
-            new BonusReportGenerator.ReportGeneratorOptions
+            new ReportGenerators.ReportGeneratorOptions
             {
                 EmployeesFilepath = EmployeesFilepath,
                 ContractsFilepath = ContractsFilepath,

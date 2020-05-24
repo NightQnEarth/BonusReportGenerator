@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BonusReportGenerator.Bonus;
+using BonusReportGenerator.TableParsers;
 
 namespace BonusReportGenerator.ReportGenerators
 {

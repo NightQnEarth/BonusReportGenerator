@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BonusReportGenerator.Bonus;
-using BonusReportGenerator.ReportGenerators;
 using BonusReportGenerator.TableParsers;
 
-namespace BonusReportGenerator
+namespace BonusReportGenerator.ReportGenerators
 {
     public class GeneratorsManager
     {

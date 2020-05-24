@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BonusReportGenerator.Bonus;
+using BonusReportGenerator.TableParsers;
 using ConsoleTables;
 
 namespace BonusReportGenerator.ReportGenerators
