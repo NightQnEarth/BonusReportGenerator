@@ -28,17 +28,15 @@ namespace BonusReportGenerator.CmdClient
         public bool RedirectReportPrintingToCmd { get; set; }
 
         [Option('s', "start_date",
-                Default = "01.01.0001",
+                Required = true,
                 HelpText = "Start date of report. Date should be represented in the following format: " +
-                           Helper.DatePattern + "\r\n" +
-                           "If this parameter is not specified, report will build from the earliest date.")]
+                           Helper.DatePattern)]
         public string StartDateOfReport { get; set; }
 
         [Option('f', "final_date",
-                Default = "31.12.9999",
+                Required = true,
                 HelpText = "Final date of report. Date should be represented in the following format: " +
-                           Helper.DatePattern + "\r\n" +
-                           "If this parameter is not specified, report will build until the latest date.")]
+                           Helper.DatePattern)]
         public string FinalDateOfReport { get; set; }
 
         public IReportGeneratorOptions ParseOptions() =>
