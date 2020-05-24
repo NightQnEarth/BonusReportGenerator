@@ -4,6 +4,7 @@ using CommandLine;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReportGeneratorOptions class and it properties instantiated by reflection in CommandLineClient.GetOptions().
 
 namespace BonusReportGenerator.CmdClient
