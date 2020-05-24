@@ -32,7 +32,9 @@ namespace BonusReportGenerator.ReportGenerators
 
             foreach (var employee in Employees)
             {
-                reportBuilder.AppendJoin(',', employee.Id, employee.FullName, bonusByEmployeeId[employee.Id].Bonus);
+                var formattedBonus = $"{bonusByEmployeeId[employee.Id].Bonus:0.00}";
+
+                reportBuilder.AppendJoin(',', employee.Id, employee.FullName, formattedBonus);
                 reportBuilder.AppendLine();
             }
 

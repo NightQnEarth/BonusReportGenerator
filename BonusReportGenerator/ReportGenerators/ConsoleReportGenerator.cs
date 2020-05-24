@@ -26,7 +26,7 @@ namespace BonusReportGenerator.ReportGenerators
                 .Configure(options => options.EnableCount = false);
 
             foreach (var employee in Employees)
-                table.AddRow(employee.Id, employee.FullName, bonusByEmployeeId[employee.Id].Bonus);
+                table.AddRow(employee.Id, employee.FullName, $"{bonusByEmployeeId[employee.Id].Bonus:0.00}");
 
             return table.ToString();
         }
