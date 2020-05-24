@@ -12,16 +12,12 @@ namespace BonusReportGenerator.TableParsers
                 throw new ArgumentException("invalid contract table line was passed. Expected " +
                                             $"'{ContractTableColumnCount}' columns, but got '{lineFields.Length}'.");
 
-            var contractId = ParseContractId(lineFields[0]);
             var employeeId = ParseEmployeeId(lineFields[1]);
             var contractDate = ParseContractDate(lineFields[2]);
             var theAmountOfTheDeal = ParseTheAmountOfTheDeal(lineFields[3]);
 
-            return new Contract(contractId, employeeId, contractDate, theAmountOfTheDeal);
+            return new Contract(employeeId, contractDate, theAmountOfTheDeal);
         }
-
-        private static int ParseContractId(string contractIdField) =>
-            Helper.ParseIntField(contractIdField, $"was found incorrect contract ID '{contractIdField}'.");
 
         private static int ParseEmployeeId(string employeeIdField) =>
             Helper.ParseIntField(employeeIdField, $"was found incorrect employee ID '{employeeIdField}'.");
