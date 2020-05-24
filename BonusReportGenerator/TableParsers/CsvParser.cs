@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualBasic.FileIO;
 
-namespace BonusReportGenerator.TableParser
+namespace BonusReportGenerator.TableParsers
 {
     public static class CsvParser<T>
     {

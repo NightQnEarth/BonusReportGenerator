@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BonusReportGenerator.Core
+namespace BonusReportGenerator.Bonus
 {
     public static class BonusGenerator
     {

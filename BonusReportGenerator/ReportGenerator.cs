@@ -1,4 +1,4 @@
-﻿namespace BonusReportGenerator.Core
+﻿namespace BonusReportGenerator
 {
     public static class ReportGenerator { }
 }

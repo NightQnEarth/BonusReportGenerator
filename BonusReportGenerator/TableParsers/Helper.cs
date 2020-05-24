@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BonusReportGenerator.TableParser
+namespace BonusReportGenerator.TableParsers
 {
     public static class Helper
     {

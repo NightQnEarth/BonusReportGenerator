@@ -1,4 +1,4 @@
-﻿namespace BonusReportGenerator
+﻿namespace BonusReportGenerator.Bonus
 {
     public class EmployeeBonus
     {

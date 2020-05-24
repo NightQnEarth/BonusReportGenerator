@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BonusReportGenerator.TableParser
+namespace BonusReportGenerator.TableParsers
 {
     public static class EmployeeParser
     {

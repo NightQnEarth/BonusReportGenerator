@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using BonusReportGenerator.Bonus;
 using BonusReportGenerator.CmdClient;
-using BonusReportGenerator.Core;
-using BonusReportGenerator.TableParser;
+using BonusReportGenerator.TableParsers;
 
 namespace BonusReportGenerator
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using BonusReportGenerator.TableParser;
+using BonusReportGenerator.TableParsers;
 using CommandLine;
 
 // ReSharper disable MemberCanBePrivate.Global
