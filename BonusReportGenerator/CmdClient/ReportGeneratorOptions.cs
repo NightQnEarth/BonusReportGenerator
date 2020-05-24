@@ -23,10 +23,9 @@ namespace BonusReportGenerator.CmdClient
                           "ContractId,EmployeeId,ContractDate,TheAmountOfTheDeal")]
         public string ContractsFilepath { get; set; }
 
-        [Option('r', "redirect_report_to_stdout",
-                Default = false,
-                HelpText = "Redirect report printing to command line.")]
-        public bool RedirectReportPrintingToCmd { get; set; }
+        [Option('r', "redirect_to_csv",
+                HelpText = "Redirect report printing to specified csv-file.")]
+        public string RedirectReportPrintingToCsv { get; set; }
 
         [Option('s', "start_date",
                 Required = true,
@@ -45,7 +44,7 @@ namespace BonusReportGenerator.CmdClient
             {
                 EmployeesFilepath = EmployeesFilepath,
                 ContractsFilepath = ContractsFilepath,
-                RedirectReportPrintingToCmd = RedirectReportPrintingToCmd,
+                RedirectReportPrintingToCsv = RedirectReportPrintingToCsv,
                 StartDateOfReport = ParseDateParameter(StartDateOfReport, nameof(StartDateOfReport)),
                 FinalDateOfReport = ParseDateParameter(FinalDateOfReport, nameof(FinalDateOfReport))
             };
