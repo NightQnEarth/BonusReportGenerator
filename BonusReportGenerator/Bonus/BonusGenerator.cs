@@ -12,6 +12,10 @@ namespace BonusReportGenerator.Bonus
                                                           DateTime startDate,
                                                           DateTime finalDate)
         {
+            if (startDate > finalDate)
+                throw new ArgumentException($"'{nameof(finalDate)}' ({finalDate:dd.MM.yyyy}) cannot be less than " +
+                                            $"'{nameof(startDate)}' ({startDate:dd.MM.yyyy}).");
+
             employees = FilterEmployeesByDate(employees, startDate, finalDate);
             contracts = FilterContractsByDate(contracts, startDate, finalDate);
 
