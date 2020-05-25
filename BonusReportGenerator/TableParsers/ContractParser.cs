@@ -30,7 +30,8 @@ namespace BonusReportGenerator.TableParsers
             Helper.ParseIntField(employeeIdField, $"was found incorrect employee ID '{employeeIdField}'.");
 
         private static DateTime ParseContractDate(string contractDateField) =>
-            Helper.ParseDateField(contractDateField, $"was found invalid format date '{contractDateField}'.");
+            Helper.ParseDateField(contractDateField, $"was found invalid format date '{contractDateField}'." +
+                                                     $"Use correct format: {Helper.DatePattern}");
 
         private static int ParseTheAmountOfTheDeal(string theAmountOfTheDealField) =>
             Helper.ParseIntField(theAmountOfTheDealField,

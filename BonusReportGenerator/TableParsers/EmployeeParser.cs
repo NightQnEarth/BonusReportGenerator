@@ -34,12 +34,14 @@ namespace BonusReportGenerator.TableParsers
                 : nameField;
 
         private static DateTime ParseRecruitmentDate(string recruitmentDateField) =>
-            Helper.ParseDateField(recruitmentDateField, $"was found invalid format date '{recruitmentDateField}'.");
+            Helper.ParseDateField(recruitmentDateField, $"was found invalid format date '{recruitmentDateField}'." +
+                                                        $"Use correct format: {Helper.DatePattern}");
 
         private static DateTime ParseDismissDate(string dismissDateField)
         {
             if (!string.IsNullOrEmpty(dismissDateField))
-                return Helper.ParseDateField(dismissDateField, $"was found invalid format date '{dismissDateField}'.");
+                return Helper.ParseDateField(dismissDateField, $"was found invalid format date '{dismissDateField}'." +
+                                                               $"Use correct format: {Helper.DatePattern}");
 
             if (dismissDateField is null)
                 throw new ArgumentNullException(nameof(dismissDateField));
@@ -50,7 +52,8 @@ namespace BonusReportGenerator.TableParsers
         private static int[] ParseBonusCode(string bonusCodeField)
         {
             if (!bonusCodeValidator.IsMatch(bonusCodeField))
-                throw new ArgumentException($"incorrect bonus code format '{bonusCodeField}'.");
+                throw new ArgumentException($"incorrect bonus code format '{bonusCodeField}'." +
+                                            "Use correct format, for example: 1,4");
 
             var bonusCode = bonusCodeField.Split(',').Select(int.Parse).ToArray();
             return bonusCode;

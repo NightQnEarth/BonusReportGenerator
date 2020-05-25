@@ -51,6 +51,7 @@ namespace BonusReportGenerator.CmdClient
             };
 
         private static DateTime ParseDateParameter(string date, string paramName) =>
-            Helper.ParseDateField(date, $"was passed invalid format date for '{paramName}' parameter.");
+            Helper.ParseDateField(date, $"was passed invalid format date for '{paramName}' parameter. " +
+                                        $"Use correct format: {Helper.DatePattern}");
     }
 }
