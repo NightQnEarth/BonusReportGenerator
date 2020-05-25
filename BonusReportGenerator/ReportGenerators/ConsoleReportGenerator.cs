@@ -26,8 +26,11 @@ namespace BonusReportGenerator.ReportGenerators
             var table = new ConsoleTable("Code", "Full name", "Bonus")
                 .Configure(options => options.EnableCount = false);
 
-            foreach (var employee in Employees)
-                table.AddRow(employee.Id, employee.FullName, $"{bonusByEmployeeId[employee.Id].Bonus:0.00}");
+            foreach (var employeeId in bonusByEmployeeId.Keys)
+            {
+                var fullName = Employees.First(employee => employee.Id == employeeId).FullName;
+                table.AddRow(employeeId, fullName, $"{bonusByEmployeeId[employeeId].Bonus:0.00}");
+            }
 
             return table.ToString();
         }

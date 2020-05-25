@@ -31,11 +31,12 @@ namespace BonusReportGenerator.ReportGenerators
             reportBuilder.AppendJoin(',', "Code", "Full name", "Bonus");
             reportBuilder.AppendLine();
 
-            foreach (var employee in Employees)
+            foreach (var employeeId in bonusByEmployeeId.Keys)
             {
-                var formattedBonus = $"{bonusByEmployeeId[employee.Id].Bonus:0.00}";
+                var fullName = Employees.First(employee => employee.Id == employeeId).FullName;
+                var formattedBonus = $"{bonusByEmployeeId[employeeId].Bonus:0.00}";
 
-                reportBuilder.AppendJoin(',', employee.Id, employee.FullName, formattedBonus);
+                reportBuilder.AppendJoin(',', employeeId, fullName, formattedBonus);
                 reportBuilder.AppendLine();
             }
 
