@@ -1,0 +1,1 @@
+### Полное описание условия задачи: [TaskDescription](TaskDescription.pdf)
