@@ -7,7 +7,7 @@ namespace BonusReportGenerator.Bonus
 {
     public class BonusCalculators
     {
-        private readonly IEnumerable<Contract> contracts;
+        private readonly Dictionary<int, HashSet<Contract>> contractsByEmployeeId;
         private readonly DateTime startDate;
         private readonly DateTime finalDate;
 
@@ -15,7 +15,7 @@ namespace BonusReportGenerator.Bonus
 
         public BonusCalculators(IEnumerable<Contract> contracts, DateTime startDate, DateTime finalDate)
         {
-            this.contracts = contracts;
+            contractsByEmployeeId = ToAssociativeCollection(contracts);
             this.startDate = startDate;
             this.finalDate = finalDate;
 
@@ -28,11 +28,24 @@ namespace BonusReportGenerator.Bonus
             };
         }
 
+        private static Dictionary<int, HashSet<Contract>> ToAssociativeCollection(IEnumerable<Contract> contracts)
+        {
+            var contractsByEmployeeId = new Dictionary<int, HashSet<Contract>>();
+
+            foreach (var contract in contracts)
+                if (contractsByEmployeeId.TryGetValue(contract.EmployeeId, out var employeeContracts))
+                    employeeContracts.Add(contract);
+                else
+                    contractsByEmployeeId[contract.EmployeeId] = new HashSet<Contract>(new[] { contract });
+
+            return contractsByEmployeeId;
+        }
+
         private double CalculateFirstBonus(Employee employee)
         {
             const double bonusCoefficient = 0.05;
 
-            var contractsSum = CalculateContractsSum(employee, contracts);
+            var contractsSum = CalculateContractsSum(employee);
 
             return contractsSum * bonusCoefficient;
         }
@@ -42,7 +55,7 @@ namespace BonusReportGenerator.Bonus
             const double bonusCoefficient = 0.10;
             const int maxBonus = 100000;
 
-            var contractsSum = CalculateContractsSum(employee, contracts);
+            var contractsSum = CalculateContractsSum(employee);
 
             return Math.Min(contractsSum * bonusCoefficient, maxBonus);
         }
@@ -52,10 +65,10 @@ namespace BonusReportGenerator.Bonus
             const double bonusCoefficient = 0.07;
             const int monthsOfWorkToGetBonus = 12 * 2;
 
-            var contractsAfterNecessaryTimeOfWork = contracts
+            var contractsAfterNecessaryTimeOfWork = GetEmployeeContracts(employee)
                 .Where(contract => employee.RecruitmentDate.AddMonths(monthsOfWorkToGetBonus) < contract.ContractDate);
 
-            var contractsSum = CalculateContractsSum(employee, contractsAfterNecessaryTimeOfWork);
+            var contractsSum = contractsAfterNecessaryTimeOfWork.Sum(contract => contract.TheAmountOfTheDeal);
 
             return contractsSum * bonusCoefficient;
         }
@@ -72,10 +85,16 @@ namespace BonusReportGenerator.Bonus
             return fullMonthsOfWorkInReportPeriod * bonusCoefficient * employee.Salary;
         }
 
-        private static int CalculateContractsSum(Employee employee, IEnumerable<Contract> contracts) =>
-            contracts
-                .Where(contract => contract.EmployeeId == employee.Id)
-                .Sum(contract => contract.TheAmountOfTheDeal);
+        private HashSet<Contract> GetEmployeeContracts(Employee employee)
+        {
+            if (contractsByEmployeeId.TryGetValue(employee.Id, out var employeeContracts))
+                return employeeContracts;
+
+            return contractsByEmployeeId[employee.Id] = new HashSet<Contract>();
+        }
+
+        private int CalculateContractsSum(Employee employee) =>
+            GetEmployeeContracts(employee).Sum(contract => contract.TheAmountOfTheDeal);
 
         private static int GetFullMonthsBetween(DateTime from, DateTime to)
         {
